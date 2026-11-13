@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Billy Christmas, PhD</title>
+<meta name="description" content="Billy Christmas, Associate Professor at West Virginia University. Philosophy, Politics, and Economics.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f3f5f8;
+    --surface: #ffffff;
+    --text: #1b2430;
+    --muted: #5d6878;
+    --rule: #dbe1e9;
+    --accent: #2c4a6e;
+    --accent-soft: #e3eaf3;
+    --serif: "Cormorant Garamond", Georgia, serif;
+    --sans: "Inter", system-ui, -apple-system, sans-serif;
+    --body: "Cormorant Garamond", Georgia, serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #121820;
+      --surface: #1a222c;
+      --text: #e6ebf1;
+      --muted: #9aa6b5;
+      --rule: #2b3542;
+      --accent: #8fb1d9;
+      --accent-soft: #1f2d3e;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* Header + tabs */
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .bar {
+    max-width: 1080px; margin: 0 auto; padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .brand { font-family: var(--serif); font-size: 1.45rem; font-weight: 600; color: var(--text); letter-spacing: .01em; }
+  .brand:hover { text-decoration: none; }
+  nav { display: flex; gap: 4px; flex-wrap: wrap; }
+  nav a {
+    font-size: .82rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--muted); padding: 8px 12px; border-radius: 4px;
+  }
+  nav a:hover { color: var(--text); text-decoration: none; }
+  nav a.active { color: var(--accent); background: var(--accent-soft); }
+
+  main { max-width: 1080px; margin: 0 auto; padding: 0 24px 96px; }
+  section.page { display: none; }
+  section.page.active { display: block; animation: fade .35s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.15; margin: 0; }
+  .page-title { font-size: clamp(2.4rem, 5vw, 3.4rem); margin: 56px 0 8px; }
+  .page-sub { color: var(--muted); font-family: var(--serif); font-style: italic; font-size: 1.3rem; margin: 0 0 40px; }
+  .page-sub .plain { font-style: normal; }
+  /* Publication information stays sans-serif */
+  ul.pubs, .links.reviews { font-family: var(--sans); font-size: 16px; }
+
+  /* Photos */
+  figure.photo { margin: 0; background: var(--rule); border-radius: 6px; overflow: hidden; }
+  figure.photo img { color: transparent; display: block; width: 100%; height: 100%; object-fit: cover; }
+  figure.photo.banner { position: relative; height: 380px; margin: 32px 0 40px; }
+  .banner::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(14,22,32,.78) 0%, rgba(14,22,32,.25) 55%, rgba(14,22,32,0) 100%); }
+  .banner figcaption { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: 0 36px 30px; color: #fff; }
+  .banner h1 { font-size: clamp(2.6rem, 6vw, 4rem); line-height: 1; }
+  .banner figcaption p { margin: 8px 0 0; font-family: var(--serif); font-style: italic; font-size: 1.3rem; color: rgba(255,255,255,.85); }
+
+  /* Home */
+  .hero-band {
+    position: relative; margin: 0 -24px 48px; padding: 72px 24px;
+    background: #1f2d3e url("images/honde-valley.jpg") center / cover no-repeat;
+  }
+  .hero-band::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(18,28,40,.78) 0%, rgba(18,28,40,.35) 100%); }
+  .hero { position: relative; }
+  .hero h1 { color: #fff; }
+  .hero h1 { font-size: clamp(3rem, 8vw, 5.6rem); letter-spacing: -.01em; line-height: .95; }
+  .hero h1 span { display: block; }
+  .home-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 64px; align-items: start; }
+  .side figure.headshot { aspect-ratio: 573 / 657; box-shadow: 0 12px 28px rgba(0,0,0,.15); }
+  .side-head { font-size: 1.6rem; margin: 36px 0 4px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); }
+  ul.recent { list-style: none; margin: 0; padding: 0; font-family: var(--sans); font-size: 14.5px; line-height: 1.5; }
+  ul.recent li { padding: 12px 0; border-bottom: 1px solid var(--rule); }
+  ul.recent .r-meta { display: block; color: var(--muted); font-size: 13px; margin-top: 3px; }
+  .more { display: inline-block; margin-top: 14px; font-size: .95rem; letter-spacing: .06em; text-transform: uppercase; }
+  .about p { margin: 0 0 1.1em; }
+  .about h2 { font-size: 2rem; margin: 24px 0 16px; }
+  .buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+  .btn {
+    display: inline-block; padding: 11px 20px; border-radius: 4px; font-size: .85rem; font-weight: 600;
+    letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--accent); color: var(--accent);
+  }
+  .btn:hover { text-decoration: none; background: var(--accent-soft); }
+  .btn.solid { background: var(--accent); color: var(--bg); }
+  .btn.solid:hover { opacity: .9; background: var(--accent); }
+
+  /* Publications */
+  .toggle-row { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+  .toggle-label { font-size: .8rem; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+  .toggle { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; padding: 3px; background: var(--surface); }
+  .toggle button {
+    border: 0; background: none; font: inherit; font-size: .85rem; font-weight: 500; color: var(--muted);
+    padding: 7px 16px; border-radius: 4px; cursor: pointer;
+  }
+  .toggle button.on { background: var(--accent); color: var(--bg); }
+  .pub-group { margin-bottom: 40px; }
+  .pub-group h2 {
+    font-size: 1.6rem; padding-bottom: 8px; margin-bottom: 4px; border-bottom: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .pub-group h2 small { font-family: var(--body); font-size: .8rem; font-weight: 400; color: var(--muted); }
+  ul.pubs { list-style: none; margin: 0; padding: 0; }
+  ul.pubs li { padding: 14px 0; border-bottom: 1px solid var(--rule); display: grid; grid-template-columns: 1fr auto; gap: 4px 24px; }
+  .pub-title { font-weight: 500; }
+  .pub-meta { color: var(--muted); font-size: .92rem; grid-column: 1; }
+  .pub-meta em { font-style: italic; }
+  .pub-year { grid-column: 2; grid-row: 1 / span 2; color: var(--muted); font-size: .9rem; white-space: nowrap; text-align: right; }
+  .tag {
+    display: inline-block; font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent);
+    background: var(--accent-soft); padding: 1px 8px; border-radius: 3px; margin-left: 8px; vertical-align: 2px;
+  }
+
+  /* Teaching */
+  .teach-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .card { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 26px 28px; }
+  .card h2 { font-size: 1.55rem; }
+  .card .country { font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 4px 0 0; }
+  .card .when { color: var(--muted); font-size: .88rem; margin: 2px 0 16px; }
+  .card h3 { font-family: var(--body); font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 16px 0 6px; font-weight: 600; }
+  .card ul { margin: 0; padding-left: 18px; }
+  .card li { margin: 3px 0; }
+
+  /* Book */
+  .book::after { content: ""; display: block; clear: both; }
+  .book figure.photo { float: left; width: 396px; margin: 6px 48px 24px 0; aspect-ratio: 2 / 3; box-shadow: 0 12px 32px rgba(0,0,0,.18); }
+  .book blockquote, .book .reviews-head, .book .links { overflow: hidden; }
+  .book .blurb p { margin: 0 0 1.1em; }
+  blockquote { margin: 32px 0 0; padding: 0 0 0 22px; border-left: 2px solid var(--accent); }
+  blockquote p { font-family: var(--serif); font-size: 1.25rem; line-height: 1.5; margin: 0 0 8px; }
+  blockquote cite { font-style: normal; font-size: .88rem; color: var(--muted); }
+
+  .reviews-head { font-size: 1.6rem; margin: 48px 0 8px; }
+  .links.reviews small { display: block; font-weight: 400; font-size: .88rem; color: var(--muted); }
+  .links a { align-items: center; }
+  /* Contact */
+  .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+  .links { list-style: none; margin: 0; padding: 0; }
+  .links li { border-bottom: 1px solid var(--rule); }
+  .links a { display: flex; justify-content: space-between; padding: 14px 2px; color: var(--text); font-weight: 500; }
+  .links a::after { content: "→"; color: var(--accent); }
+  .contact .links a::after { content: none; }
+  .links a:hover { color: var(--accent); text-decoration: none; }
+  address { font-style: normal; line-height: 1.8; }
+  .label { font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; display: block; }
+
+  footer { border-top: 1px solid var(--rule); color: var(--muted); font-size: .82rem; text-align: center; padding: 28px 24px; }
+
+  @media (max-width: 800px) {
+    .hero, .contact, .teach-grid { grid-template-columns: 1fr; gap: 32px; }
+    .hero-band { padding: 48px 24px; }
+    .home-grid { grid-template-columns: 1fr; gap: 40px; }
+    .side figure.headshot { max-width: 260px; }
+    .book figure.photo { float: none; width: 100%; max-width: 240px; margin: 0 0 32px; }
+    .banner { height: 260px; }
+    .banner figcaption { padding: 0 20px 20px; }
+    ul.pubs li { grid-template-columns: 1fr; }
+    .pub-year { grid-column: 1; grid-row: auto; text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <a class="brand" href="#home">Billy Christmas, Ph.D.</a>
+    <nav>
+      <a href="#home" data-tab="home">Home</a>
+      <a href="#publications" data-tab="publications">Publications</a>
+      <a href="#teaching" data-tab="teaching">Teaching</a>
+      <a href="#property-justice" data-tab="property-justice">Property &amp; Justice</a>
+      <a href="#contact" data-tab="contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- HOME -->
+  <section class="page" id="home">
+    <div class="hero-band">
+      <div class="hero">
+        <h1><span>Billy</span><span>Christmas</span></h1>
+      </div>
+    </div>
+
+    <div class="home-grid">
+    <div class="about">
+      <p>I am an Associate Professor at West Virginia University, in the John Chambers College of Business and Economics, affiliated with the <a href="https://business.wvu.edu/research-outreach/kendrick-center-for-an-ethical-economy">Kendrick Center for an Ethical Economy</a>. I teach across Philosophy, Politics, and Economics (PPE) and Business Ethics.</p>
+      <p>My work engages with the philosophical analysis of political and economic institutions, particularly property rights and state authority. I'm also interested in their connection to urban development and environmental governance. My first book, <a href="#property-justice"><em>Property and Justice: A Liberal Theory of Natural Rights</em></a>, was published with Routledge in 2021.</p>
+      <p>I am now working on a project that brings the concept of "state capacity" under the lens of political philosophy. My next book, <em>State Capacity Liberalism</em>, is under contract with Oxford University Press.</p>
+      <p>I have published articles in <a href="https://onlinelibrary.wiley.com/doi/10.1111/papa.12281">Philosophy &amp; Public Affairs</a>, <a href="https://www.journals.uchicago.edu/doi/abs/10.1086/711556?journalCode=jop">The Journal of Politics</a>, <a href="https://www.cambridge.org/core/journals/economics-and-philosophy/article/abs/ambidextrous-lockeanism/601F280B87EEB9E22F0255420BDBB5F4">Economics &amp; Philosophy</a>, <a href="https://link.springer.com/article/10.1007/s10982-025-09528-5">Law &amp; Philosophy</a>, and the <a href="https://plato.stanford.edu/entries/libertarianism/">Stanford Encyclopedia of Philosophy</a>, et al.</p>
+      <p>I am a co-principal investigator on a John Templeton Foundation funded research project, "Market Institutions and Green Ideals," in collaboration with the <a href="https://csgs.kcl.ac.uk/">Centre for the Study of Governance and Society</a> at King's College London. Prior to joining WVU I was Senior Lecturer in Political Philosophy at King's College London, in the <a href="https://www.kcl.ac.uk/political-economy">Department of Political Economy</a>, where I was the PPE Programme Director for four years.</p>
+      <p>Prior to that, I was a Fellow at the New York University School of Law, in the <a href="https://classicalliberalinstitute.org/">Classical Liberal Institute</a>, where I remain a Program Affiliate Scholar. I have a BA in Philosophy, an MA in Political Economy, and a PhD in Politics from the <a href="https://www.humanities.manchester.ac.uk/politics/research/research-clusters/mancept/">Manchester Centre for Political Theory</a>, at the University of Manchester.</p>
+      <p>I live in Morgantown with my wife and daughter. I enjoy powerlifting, mountain biking, and I am a tonsured Reader in the Orthodox Church. I took the photos on this website in the Hondę Valley (Zimbabwe-Mozambique border), New York City, London, and Brussels, respectively. Except for my headshot which was taken by <a href="https://www.anamcarafilmstudios.com/alexandrina">Alex Flemming</a> in the Harare Botanical Gardens in 2023.</p>
+    </div>
+    <aside class="side">
+      <figure class="photo headshot"><img src="images/headshot.jpg" alt="Billy Christmas"></figure>
+      <h2 class="side-head">Recent Publications</h2>
+      <ul class="recent" id="recent-pubs"></ul>
+      <a class="more" href="#publications">All publications</a>
+    </aside>
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section class="page" id="publications">
+    <figure class="photo banner"><img style="object-position: 50% 30%" src="images/new-york.jpg" alt="New York City"><figcaption><h1>Publications</h1></figcaption></figure>
+    <div class="toggle-row">
+      <span class="toggle-label">View by</span>
+      <div class="toggle" role="group" aria-label="Organise publications">
+        <button type="button" data-view="type" class="on">Type</button>
+        <button type="button" data-view="date">Date</button>
+      </div>
+    </div>
+    <div id="pub-list"></div>
+  </section>
+
+  <!-- TEACHING -->
+  <section class="page" id="teaching">
+    <figure class="photo banner"><img style="object-position: 50% 55%" src="images/london.jpg" alt="London"><figcaption><h1>Teaching</h1><p>Courses taught, 2015–present</p></figcaption></figure>
+    <div class="teach-grid">
+      <div class="card">
+        <h2>West Virginia University</h2>
+        <p class="country">United States of America</p>
+        <p class="when">2025–present</p>
+        <h3>Undergraduate</h3>
+        <ul><li>Ethics and Commercial Society</li><li>How To Be Moral</li></ul>
+        <h3>Graduate</h3>
+        <ul><li>Institutional Economics</li></ul>
+      </div>
+      <div class="card">
+        <h2>King's College London</h2>
+        <p class="country">United Kingdom</p>
+        <p class="when">2019–2024</p>
+        <h3>Undergraduate</h3>
+        <ul>
+          <li>Introduction to Political Theory</li>
+          <li>Political and Economic Philosophy</li>
+          <li>Contemporary Issues in Political Theory</li>
+          <li>Freedom and the State</li>
+          <li>Marxian Political Economy</li>
+          <li>Dissertation Supervision (BA/BSc)</li>
+        </ul>
+        <h3>Graduate</h3>
+        <ul>
+          <li>Radical Political Economy</li>
+          <li>Liberty, Equality, and Justice: Political Theory and Public Policy</li>
+          <li>Dissertation Supervision (MA)</li>
+          <li>Thesis Supervision (MPhil/PhD)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Charles University</h2>
+        <p class="country">Czech Republic</p>
+        <p class="when">2024 visit</p>
+        <h3>Undergraduate</h3>
+        <ul><li>Philosophy, Politics, and Economics Classics</li></ul>
+      </div>
+      <div class="card">
+        <h2>University of Manchester</h2>
+        <p class="country">United Kingdom</p>
+        <p class="when">2015–2016</p>
+        <h3>Undergraduate</h3>
+        <ul><li>Introduction to Political Theory</li><li>Philosophy and Social Science</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROPERTY & JUSTICE -->
+  <section class="page" id="property-justice">
+    <h1 class="page-title">Property &amp; Justice</h1>
+    <p class="page-sub">A Liberal Theory of Natural Rights, <span class="plain">Routledge, 2021</span></p>
+    <div class="book">
+      <figure class="photo"><img src="images/book-cover.jpg" alt="Cover of Property and Justice"></figure>
+      <div class="blurb">
+        <p>This book gives an account of a full spectrum of property rights and their relationship to individual liberty. It shows that a purely deontological approach to justice can deal with the most complex questions regarding the property system. Moreover, the author considers the economic, ecological, and technological complexities of our real-world property systems. The result is a more conceptually sound account of natural rights and the property system they demand.</p>
+        <p>If we think that liberty should be at the centre of justice, what does that mean for the property system? Economists and lawyers widely agree that a property system must be composed of many different types of property: the kind of private ownership one has over one's person and immediate possessions, as well as the kinds of common ownership we each have in our local streets, as well as many more. However, theories of property and justice have not given anything approaching an adequate account of the relationship between liberty and any other form of property other than private ownership. It is often thought that a basic commitment to liberty cannot really tell us how to arrange the major complexities of the property system, which diverge from simple private ownership.</p>
+        <p><em>Property and Justice</em> demonstrates how philosophical rigour coupled with interdisciplinary engagement enables us to think clearly about how to deal with real-world problems. It will be of interest to political philosophers, political theorists, and legal theorists working on property rights and justice.</p>
+        <div class="buttons">
+          <a class="btn solid" href="https://www.routledge.com/Property-and-Justice-A-Liberal-Theory-of-Natural-Rights/Christmas/p/book/9780367275167">Purchase from Routledge</a>
+        </div>
+        <blockquote>
+          <p>Property is arguably the foundational issue in legal and political philosophy. Billy Christmas insightfully illuminates this foundational issue by elaborating a radical liberal - libertarian - theory of property. This provocative book will surely spur controversy and deepen understanding by showing how a libertarian account of property rights can address the perennial concerns of libertarianism's critics while grounding robust safeguards for autonomy and flourishing.</p>
+          <cite>Gary Chartier, Distinguished Professor of Law and Business Ethics, La Sierra University, California</cite>
+        </blockquote>
+        <blockquote>
+          <p>This book is the first serious attempt to combine a right-libertarian theory of individual private property with a solid theory of other forms of property, such as collective, public, and common property. It makes for a much more plausible and humane theory of property.</p>
+          <cite>Karl Widerquist, Professor of Philosophy, Georgetown University-Qatar</cite>
+        </blockquote>
+        <h2 class="reviews-head">Reviews &amp; Discussion</h2>
+        <ul class="links reviews">
+          <li><a href="https://isonomiaquarterly.com/volume-3-issue-4/towards-a-complete-libertarianism/"><span>Kevin Vallier<small><em>Isonomia Quarterly</em>, 3(4), 2025</small></span></a></li>
+          <li><a href="https://jls.mises.org/article/81281-book-review-_property-and-justice-a-liberal-theory-of-natural-rights_"><span>Charles Amos<small><em>Journal of Libertarian Studies</em>, 27, 2023</small></span></a></li>
+          <li><a href="https://oll.libertyfund.org/reading_room/Skoble_Levy_Property_Justice"><span>Jacob T. Levy, Aeon Skoble &amp; Sarah Skwire<small>Online Library of Liberty Symposium, 2022</small></span></a></li>
+          <li><a href="https://oll.libertyfund.org/reading_room/Christmas_Postcript_Property_and_Justice"><span>Billy Christmas, Response to Critics<small>Online Library of Liberty</small></span></a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="page" id="contact">
+    <figure class="photo banner"><img style="object-position: 50% 45%" src="images/brussels.jpg" alt="Brussels"><figcaption><h1>Contact</h1></figcaption></figure>
+    <div class="contact">
+      <div>
+        <span class="label">Links</span>
+        <ul class="links">
+          <li><a href="mailto:william.christmas@mail.wvu.edu">Professional Email</a></li>
+          <li><a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=3395141">SSRN</a></li>
+          <li><a href="https://scholar.google.com/citations?user=e5Zv7RUAAAAJ&amp;hl=en">Google Scholar</a></li>
+          <li><a href="https://www.linkedin.com/in/billy-christmas-2354187b/">LinkedIn</a></li>
+          <li><a href="https://its.law.nyu.edu/facultyprofiles/index.cfm?fuseaction=profile.overview&amp;personid=47645">NYU Law Profile</a></li>
+        </ul>
+      </div>
+      <div>
+        <span class="label">Address</span>
+        <address>
+          West Virginia University<br>
+          John Chambers College of Business &amp; Economics<br>
+          2107 Reynolds Hall, 83 Beechurst Avenue<br>
+          Morgantown, WV 26505<br>
+          United States of America
+        </address>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>© Billy Christmas</footer>
+
+<script>
+/* ---------------------------------------------------------------
+   PUBLICATIONS
+   To add a publication, copy a line and edit it.
+   type: one of the keys in TYPES below
+   year: a number, or "Forthcoming"
+   --------------------------------------------------------------- */
+const TYPES = {
+  journal:  "Peer-Reviewed Journal Articles",
+  chapter:  "Book Chapters & Encyclopedia Entries",
+  invited:  "Invited Journal Articles",
+  review:   "Book Reviews",
+  book:     "Books"
+};
+
+const TAGS = { book: "Book", journal: "Journal article", invited: "Invited article", chapter: "Chapter", review: "Book review" };
+
+const PUBS = [
+  { type: "book", title: "Property and Justice: A Liberal Theory of Natural Rights", venue: "Routledge", year: 2021, url: "https://www.routledge.com/Property-and-Justice-A-Liberal-Theory-of-Natural-Rights/Christmas/p/book/9780367275167" },
+
+  { type: "journal", title: "Hobbesian Libertarianism: Uncertainty, Liability, and Credible Commitment", venue: "Constitutional Political Economy", year: "Forthcoming", url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7700522" },
+  { type: "journal", title: "The Duty to Aid as a Duty to Hire", coauthor: "Carlo L. Cordasco", venue: "Business Ethics Quarterly", year: "Forthcoming", url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7583499" },
+  { type: "journal", title: "Against the Public Ownership Conception of Shared Property", venue: "Journal of Ethics and Social Philosophy", year: "Forthcoming", url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6847741" },
+  { type: "journal", title: "Toward State Capacity Liberalism", venue: "Public Affairs Quarterly", year: 2026, url: "https://papers.ssrn.com/abstract=6720238" },
+  { type: "journal", title: "Property, Authority, and Unavoidable Unilateralism", venue: "Law & Philosophy", year: 2025, url: "https://papers.ssrn.com/abstract=5200383" },
+  { type: "journal", title: "Free to Build: Liberty and Urban Housing", venue: "Philosophy & Public Affairs", year: 2025, url: "https://papers.ssrn.com/abstract=5087932" },
+  { type: "journal", title: "Against Kantian Statism", venue: "The Journal of Politics", year: 2021, url: "https://papers.ssrn.com/abstract=4549211" },
+  { type: "journal", title: "Answering the Conventionalist Challenge to Natural Rights Theory", venue: "Res Publica", year: 2021, url: "https://papers.ssrn.com/abstract=4549217" },
+  { type: "journal", title: "Ambidextrous Lockeanism", venue: "Economics & Philosophy", year: 2020, url: "https://papers.ssrn.com/abstract=4634902" },
+  { type: "journal", title: "Hugo Grotius and Private Property", venue: "Raisons Politiques", year: 2019, url: "https://papers.ssrn.com/abstract=4549240" },
+  { type: "journal", title: "A Reformulation of the Structure of a Set of Compossible Rights", venue: "The Philosophical Quarterly", year: 2019, url: "https://papers.ssrn.com/abstract=4634906" },
+  { type: "journal", title: "Rescuing the Libertarian Non-Aggression Principle", venue: "Moral Philosophy & Politics", year: 2019, url: "https://papers.ssrn.com/abstract=4549538" },
+  { type: "journal", title: "Incommensurability and Property Rights in the Natural Environment", venue: "Environmental Politics", year: 2017, url: "https://papers.ssrn.com/abstract=4549249" },
+  { type: "journal", title: "Libertarianism and Privilege", venue: "Molinari Review", year: 2017, url: "https://papers.ssrn.com/abstract=4549257" },
+  { type: "journal", title: "The Possibility of Thick Libertarianism", venue: "Libertarian Papers", year: 2017, url: "https://papers.ssrn.com/abstract=4549562" },
+
+  { type: "invited", title: "Moral Science: What Is It?", venue: "Reason Papers", year: 2024, url: "https://papers.ssrn.com/abstract=4989535" },
+  { type: "invited", title: "The Neoliberal Turn: Libertarian Justice and Public Policy", venue: "Journal des Économistes et des Études Humaines", year: 2020, url: "https://papers.ssrn.com/abstract=4549558" },
+  { type: "invited", title: "Responsibility, Respect, and Justice: Skepticism about Metanorms", venue: "Reason Papers", year: 2018, url: "https://papers.ssrn.com/abstract=4549550" },
+
+  { type: "chapter", title: "Social Justice in Eastern Orthodoxy", venue: "Faith Perspectives of Social Justice", publisher: "St. Mary's University Press", year: "Forthcoming", url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7700900" },
+  { type: "chapter", title: "Murray Rothbard Against the State", venue: "Is the State Justified? Vol. 2: Questioning the State", publisher: "Palgrave", year: "Forthcoming" },
+  { type: "chapter", title: "Markets", venue: "Cambridge Dictionary of Political Thought", publisher: "Cambridge University Press", year: "Forthcoming" },
+  { type: "chapter", title: "Private Property and the Economic Teachings of the Early Church Fathers", venue: "On Morality, Human Behaviour, and Economics", publisher: "Institute of Economic Affairs", year: 2026, url: "https://papers.ssrn.com/abstract=5893902" },
+  { type: "chapter", title: "Rights and Classical Liberalism", venue: "Routledge Handbook of Classical Liberalism", publisher: "Routledge", year: 2026, url: "https://papers.ssrn.com/abstract=4982164" },
+  { type: "chapter", title: "John Locke: Property Rights and Labour-Mixing", venue: "Global Encyclopedia of Territorial Rights", publisher: "Palgrave", year: 2025, url: "https://papers.ssrn.com/abstract=4634914" },
+  { type: "chapter", title: "Libertarianism", venue: "Routledge Companion to Social and Political Philosophy (2nd edition)", publisher: "Routledge", year: 2024, url: "https://papers.ssrn.com/abstract=4937994" },
+  { type: "chapter", title: "Libertarianism", coauthor: "Bas van der Vossen", venue: "Stanford Encyclopedia of Philosophy", year: 2023, url: "https://plato.stanford.edu/entries/libertarianism/" },
+  { type: "chapter", title: "Pollution and Natural Rights", venue: "Climate Liberalism: Perspectives on Liberty, Property, and Pollution", publisher: "Palgrave", year: 2023, url: "https://papers.ssrn.com/abstract=4549464" },
+  { type: "chapter", title: "Nozick and the Natural Duty of Justice", venue: "Defending Liberty: Essays in Honor of David Gordon", publisher: "Ludwig von Mises Institute", year: 2022, url: "https://papers.ssrn.com/abstract=4549461" },
+  { type: "chapter", title: "Force and Coercion", venue: "The Routledge Companion to Libertarianism", publisher: "Routledge", year: 2022, url: "https://papers.ssrn.com/abstract=4549235" },
+  { type: "chapter", title: "Methodological Anarchism", coauthor: "Jason Lee Byas", venue: "The Routledge Handbook of Anarchy and Anarchist Thought", publisher: "Routledge", year: 2021, url: "https://papers.ssrn.com/abstract=4549456" },
+  { type: "chapter", title: "Social Equality and Liberty", venue: "The Dialectics of Liberty", publisher: "Rowman & Littlefield", year: 2018, url: "https://papers.ssrn.com/abstract=4549553" }
+];
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const yearKey = y => (y === "Forthcoming" ? 9999 : Number(y));
+
+function item(p, showType) {
+  const title = p.url ? `<a href="${esc(p.url)}">${esc(p.title)}</a>` : esc(p.title);
+  const co = p.coauthor ? ` (with ${esc(p.coauthor)})` : "";
+  const tag = showType ? `<span class="tag">${esc(TAGS[p.type])}</span>` : "";
+  const meta = `<em>${esc(p.venue)}</em>${p.publisher ? ", " + esc(p.publisher) : ""}`;
+  return `<li><span class="pub-title">${title}${co}${tag}</span><span class="pub-meta">${meta}</span>${showType ? "" : `<span class="pub-year">${esc(p.year)}</span>`}</li>`;
+}
+
+function group(heading, list, showType) {
+  return `<div class="pub-group"><h2>${esc(heading)} <small>${list.length}</small></h2><ul class="pubs">${list.map(p => item(p, showType)).join("")}</ul></div>`;
+}
+
+function renderPubs(view) {
+  const out = document.getElementById("pub-list");
+  const sorted = PUBS.map((p, i) => ({ ...p, i })).sort((a, b) => yearKey(b.year) - yearKey(a.year) || a.i - b.i);
+  if (view === "date") {
+    const years = [...new Set(sorted.map(p => p.year))];
+    out.innerHTML = years.map(y => group(String(y), sorted.filter(p => p.year === y), true)).join("");
+  } else {
+    out.innerHTML = Object.keys(TYPES)
+      .map(t => [t, sorted.filter(p => p.type === t)])
+      .filter(([, list]) => list.length)
+      .map(([t, list]) => group(TYPES[t], list, false))
+      .join("");
+  }
+  document.querySelectorAll(".toggle button").forEach(b => b.classList.toggle("on", b.dataset.view === view));
+}
+
+document.querySelectorAll(".toggle button").forEach(b => b.addEventListener("click", () => renderPubs(b.dataset.view)));
+
+/* Home page: four most recent publications (excluding books) */
+document.getElementById("recent-pubs").innerHTML = PUBS
+  .map((p, i) => ({ ...p, i }))
+  .filter(p => p.type !== "book")
+  .sort((a, b) => yearKey(b.year) - yearKey(a.year) || a.i - b.i)
+  .slice(0, 4)
+  .map(p => {
+    const t = p.url ? `<a href="${esc(p.url)}">${esc(p.title)}</a>` : esc(p.title);
+    return `<li>${t}<span class="r-meta"><em>${esc(p.venue)}</em>, ${esc(p.year)}</span></li>`;
+  }).join("");
+renderPubs("type");
+
+/* ---------------- TABS ---------------- */
+const TABS = ["home", "publications", "teaching", "property-justice", "contact"];
+function showTab() {
+  const id = TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "home";
+  document.querySelectorAll("section.page").forEach(s => s.classList.toggle("active", s.id === id));
+  document.querySelectorAll("nav a").forEach(a => a.classList.toggle("active", a.dataset.tab === id));
+  window.scrollTo(0, 0);
+}
+function go(id) {
+  document.querySelectorAll("section.page").forEach(s => s.classList.toggle("active", s.id === id));
+  document.querySelectorAll("nav a").forEach(a => a.classList.toggle("active", a.dataset.tab === id));
+  window.scrollTo(0, 0);
+}
+document.addEventListener("click", e => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a) return;
+  const id = a.getAttribute("href").slice(1);
+  if (!TABS.includes(id)) return;
+  e.preventDefault();
+  go(id);
+  try { history.pushState(null, "", "#" + id); } catch (_) {}
+});
+window.addEventListener("popstate", showTab);
+showTab();
+
+/* Hide any photo that hasn't been uploaded yet */
+document.querySelectorAll("figure.photo img").forEach(img => {
+  img.addEventListener("error", () => { img.style.visibility = "hidden"; });
+});
+</script>
+</body>
+</html>
